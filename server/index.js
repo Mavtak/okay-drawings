@@ -10,7 +10,9 @@ app.use('/api', api);
 app.use('/dist', express.static('dist'));
 
 app.get('*', (req, res) => {
-  res.send('hello world');
+  res.sendFile('dist/index.html', {
+    root: process.cwd(),
+  });
 });
 
 app.listen(port, () => {
