@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
+import document from './document.js';
 
-function init() {
+export default () => {
   let element = (
     <App />
   );
@@ -12,5 +13,3 @@ function init() {
 
   ReactDOM.render(element, root);
 }
-
-export default init;
