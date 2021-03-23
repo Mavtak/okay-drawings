@@ -8,7 +8,8 @@
     "build": "webpack",
     "build-watch": "webpack --watch",
     "start": "nodemon ./server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test-watch": "jest --watch"
   },
   "repository": {
     "type": "git",
