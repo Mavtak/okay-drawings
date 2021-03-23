@@ -1,3 +1,4 @@
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
 export default {
@@ -10,4 +11,11 @@ export default {
     filename: '[name].js',
     path: path.resolve(process.cwd(), 'dist'),
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      hash: true,
+      publicPath: '/dist',
+      title: 'Okay Drawings',
+    }),
+  ],
 };
