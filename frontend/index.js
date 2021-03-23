@@ -1,5 +1,4 @@
-console.log('hello!');
+import '@babel/polyfill';
+import init from './init.jsx';
 
-let element = document.createElement('div');
-element.innerText = 'hi there';
-document.body.appendChild(element);
+init();
