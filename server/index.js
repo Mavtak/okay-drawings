@@ -1,8 +1,9 @@
 import express from 'express';
 import api from './api/index.js';
 
+const args = process.argv.slice(2);
 const app = express();
-const port = 8080;
+const port = args[0] || 8080;
 
 app.get('/', (req, res) => {
   res.send('hello world');
