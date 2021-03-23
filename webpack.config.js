@@ -11,6 +11,15 @@ export default {
     filename: '[name].js',
     path: path.resolve(process.cwd(), 'dist'),
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: /frontend/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       hash: true,
