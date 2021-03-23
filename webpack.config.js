@@ -14,7 +14,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         enforce: 'pre',
         loader: 'eslint-loader',
@@ -23,7 +23,7 @@ export default {
         },
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         include: /frontend/,
         loader: 'babel-loader',
       },

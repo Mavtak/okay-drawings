@@ -4,6 +4,7 @@ module.exports = function (api) {
   return ({
     presets: [
       require('@babel/preset-env'),
+      require('@babel/preset-react'),
     ],
   });
 };
