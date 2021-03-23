@@ -15,6 +15,15 @@ export default {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
+        enforce: 'pre',
+        loader: 'eslint-loader',
+        options: {
+          fix: true,
+        },
+      },
+      {
+        test: /\.js$/,
         include: /frontend/,
         loader: 'babel-loader',
       },
