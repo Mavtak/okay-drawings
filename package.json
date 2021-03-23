@@ -1,0 +1,19 @@
+{
+  "name": "okay-drawings",
+  "version": "1.0.0",
+  "description": "a complete though basic drawing app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mavtak/okay-drawings.git"
+  },
+  "author": "David McGrath <okay-drawings@davidmcgrath.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mavtak/okay-drawings/issues"
+  },
+  "homepage": "https://github.com/Mavtak/okay-drawings#readme"
+}
