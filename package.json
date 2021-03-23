@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Mavtak/okay-drawings/issues"
   },
-  "homepage": "https://github.com/Mavtak/okay-drawings#readme"
+  "homepage": "https://github.com/Mavtak/okay-drawings#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
