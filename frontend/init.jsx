@@ -12,4 +12,4 @@ export default () => {
   document.body.appendChild(root);
 
   ReactDOM.render(element, root);
-}
+};
