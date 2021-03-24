@@ -4,6 +4,7 @@ import {
 import React from 'react';
 import {
   BrowserRouter,
+  Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -108,5 +109,12 @@ describe('App', () => {
         expect(content().props().id).toBe('some-id');
       });
     });
+  });
+
+  it('contains a fallback/redirect to the listing', () => {
+    const redirect = subject.find(Switch).find(Redirect);
+
+    expect(redirect.length).toBe(1);
+    expect(redirect.props().to).toBe('/');
   });
 });

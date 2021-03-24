@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter,
+  Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -45,6 +46,9 @@ class App extends React.Component {
                 id={match.params.id}
               />
             )}
+          />
+          <Redirect
+            to="/"
           />
         </Switch>
       </BrowserRouter>
