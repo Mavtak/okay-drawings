@@ -1,6 +1,15 @@
 import localStorage from './localStorage.js';
 import userSession from './userSession.js';
 
+let eventStream
+
+jest.mock('./EventStream.js', () => jest.fn(() => {
+  return eventStream = {
+    publish: jest.fn(),
+    subscribe: jest.fn(),
+  };
+}));
+
 jest.mock('./localStorage.js', () => ({}));
 
 describe('userSession', () => {
@@ -35,13 +44,19 @@ describe('userSession', () => {
   });
 
   describe('logIn', () => {
-    it('sets the user', () => {
+    beforeEach(() => {
       userSession.logIn({
         extraData: 'could be anything',
         username: 'some-username',
       });
+    });
 
+    it('sets the user', () => {
       expect(localStorage.currentUser).toEqual('{"extraData":"could be anything","username":"some-username"}');
+    });
+
+    it('publishes an event', () => {
+      expect(eventStream.publish).toHaveBeenCalledWith();
     });
   });
 
@@ -51,25 +66,39 @@ describe('userSession', () => {
         localStorage.currentUser = `{
           "username": "some.username",
         }`;
+
+        userSession.logOut();
       });
 
       it('clears localStorage.currentUser', () => {
-        userSession.logOut();
-
         expect(localStorage.currentUser).toBeUndefined();
+      });
+
+      it('publishes an event', () => {
+        expect(eventStream.publish).toHaveBeenCalledWith();
       });
     });
 
     describe('when localStorage.currentUser is not set', () => {
       beforeEach(() => {
         delete localStorage.currentUser;
+
+        userSession.logOut();
       });
 
       it('maintains localStorage.currentUser as undefined', () => {
-        userSession.logOut();
-
         expect(localStorage.currentUser).toBeUndefined();
       });
+
+      it('publishes an event', () => {
+        expect(eventStream.publish).toHaveBeenCalledWith();
+      });
+    });
+  });
+
+  describe('subscribe', () => {
+    it('is eventStream.subscribe', () => {
+      expect(userSession.subscribe).toBe(eventStream.subscribe);
     });
   });
 });
