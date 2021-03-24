@@ -9,7 +9,9 @@ describe('View', () => {
 
   beforeEach(() => {
     subject = shallow(
-      <View />
+      <View 
+        id="some-id"
+      />
     );
   });
 
@@ -18,6 +20,6 @@ describe('View', () => {
   });
 
   it('contains some filler text', () => {
-    expect(subject.text()).toBe('login view');
+    expect(subject.text()).toBe('view view for some-id');
   });
 });
