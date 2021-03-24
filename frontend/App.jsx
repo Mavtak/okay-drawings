@@ -5,6 +5,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import UserSessionControls from './UserSessionControls.jsx';
 import CreateView from './views/create/View.jsx';
 import ListView from './views/list/View.jsx';
 import LogInView from './views/logIn/View.jsx';
@@ -14,6 +15,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
+        <UserSessionControls />
         <Switch>
           <Route
             exact

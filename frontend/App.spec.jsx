@@ -9,6 +9,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import App from './App.jsx';
+import UserSessionControls from './UserSessionControls.jsx';
 import CreateView from './views/create/View.jsx';
 import ListView from './views/list/View.jsx';
 import LogInView from './views/logIn/View.jsx';
@@ -25,6 +26,12 @@ describe('App', () => {
 
   it('is a BrowserRouter', () => {
     expect(subject.type()).toBe(BrowserRouter);
+  });
+
+  it('contains UserSessionControls', () => {
+    const userSessionControls = subject.find(UserSessionControls);
+
+    expect(userSessionControls.length).toBe(1);
   });
 
   it('contains a Switch', () => {
