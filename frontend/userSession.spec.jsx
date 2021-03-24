@@ -19,9 +19,9 @@ describe('userSession', () => {
     
     describe('when localStorage.currentUser is set', () => {
       beforeEach(() => {
-        localStorage.currentUser = {
-          username: 'some.username',
-        };
+        localStorage.currentUser = `{
+          "username": "some.username"
+        }`;
       });
 
       it('returns the user', () => {
@@ -41,19 +41,16 @@ describe('userSession', () => {
         username: 'some-username',
       });
 
-      expect(localStorage.currentUser).toEqual({
-        extraData: 'could be anything',
-        username: 'some-username',
-      })
+      expect(localStorage.currentUser).toEqual('{"extraData":"could be anything","username":"some-username"}');
     });
   });
 
   describe('logOut', () => {
     describe('when localStorage.currentUser is set', () => {
       beforeEach(() => {
-        localStorage.currentUser = {
-          username: 'some.username',
-        };
+        localStorage.currentUser = `{
+          "username": "some.username",
+        }`;
       });
 
       it('clears localStorage.currentUser', () => {
