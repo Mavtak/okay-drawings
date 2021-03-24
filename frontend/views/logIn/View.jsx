@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import userSession from '../../userSession.js';
 
@@ -18,6 +19,9 @@ class View extends React.Component {
 
   handleLogIn = (event) => {
     const {
+      onLoggedIn,
+    } = this.props;
+    const {
       username,
     } = this.state;
 
@@ -30,6 +34,8 @@ class View extends React.Component {
     userSession.logIn({
       username,
     });
+
+    onLoggedIn();
   }
 
   render = () => {
@@ -60,5 +66,9 @@ class View extends React.Component {
     );
   }
 }
+
+View.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired,
+};
 
 export default View;

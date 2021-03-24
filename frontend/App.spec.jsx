@@ -82,8 +82,17 @@ describe('App', () => {
     });
 
     describe('/log-in', () => {
-      const content = () => renderContent(route());
+      const content = () => renderContent(route(), {
+        history,
+      });
+      let history;
       const route = () => findRoute('/log-in');
+
+      beforeEach(() => {
+        history = {
+          push: jest.fn(),
+        };
+      });
 
       it('exists', () => {
         expect(route().length).toBe(1);
@@ -91,6 +100,16 @@ describe('App', () => {
 
       it('renders the login view', () => {
         expect(content().type()).toBe(LogInView);
+      });
+
+      it('sets the onLoggedIn prop', () => {
+        let onLoggedIn = content().props().onLoggedIn;
+
+        expect(onLoggedIn).toEqual(expect.any(Function));
+
+        onLoggedIn();
+
+        expect(history.push).toHaveBeenCalledWith('/');
       });
     });
 

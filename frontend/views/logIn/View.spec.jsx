@@ -10,11 +10,15 @@ jest.mock('../../userSession.js', () => ({
 }));
 
 describe('View', () => {
+  let onLoggedIn;
   let subject;
 
   beforeEach(() => {
+    onLoggedIn = jest.fn();
     subject = shallow(
-      <View />
+      <View
+        onLoggedIn={onLoggedIn}
+      />
     );
   });
 
@@ -65,6 +69,10 @@ describe('View', () => {
       it('does not call userSession.logIn', () => {
         expect(userSession.logIn).not.toHaveBeenCalled();
       });
+
+      it('does not call onLoggedIn', () => {
+        expect(onLoggedIn).not.toHaveBeenCalled();
+      });
     });
 
     describe('when the username is set', () => {
@@ -80,6 +88,10 @@ describe('View', () => {
         expect(userSession.logIn).toHaveBeenCalledWith({
           username: 'some.user',
         });
+      });
+
+      it('calls onLoggedIn', () => {
+        expect(onLoggedIn).toHaveBeenCalledWith();
       });
     });
   });

@@ -34,8 +34,14 @@ class App extends React.Component {
           <Route
             exact
             path="/log-in"
-            render={() => (
-              <LogInView />
+            render={({
+              history,
+            }) => (
+              <LogInView
+                onLoggedIn={() => {
+                  history.push('/');
+                }}
+              />
             )}
           />
           <Route
