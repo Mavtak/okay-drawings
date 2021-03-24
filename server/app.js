@@ -3,10 +3,10 @@ import apiApp from './api/app.js';
 import console from './console.js';
 import process from './process.js';
 
-export default (port) => {
+export default async (port) => {
   const app = express();
 
-  app.use('/api', apiApp());
+  app.use('/api', await apiApp());
 
   app.use('/dist', express.static('dist'));
 

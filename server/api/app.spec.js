@@ -15,32 +15,33 @@ describe('app', () => {
   beforeEach(() => {
     expressInstance = {
       get: jest.fn(),
+      post: jest.fn(),
       use: jest.fn(),
     };
 
     express.mockReturnValue(expressInstance);
   });
 
-  it('creates a new express app', () => {
-    app();
+  it('creates a new express app', async () => {
+    await app();
 
     expect(express).toHaveBeenCalledWith();
   });
 
-  it('uses bodyParser.json', () => {
-    app();
+  it('uses bodyParser.json', async () => {
+    await app();
 
     expect(expressInstance.use).toHaveBeenCalledWith('mocked json body parser');
   });
 
-  it('registers the root route', () => {
-    app();
+  it('registers the root route', async () => {
+    await app();
 
     expect(expressInstance.get).toHaveBeenCalledWith('/', rootRoute);
   })
 
-  it('returns the app instance', () => {
-    const actual = app();
+  it('returns the app instance', async () => {
+    const actual = await app();
 
     expect(actual).toBe(expressInstance);
   });
