@@ -14,6 +14,11 @@ class UserSessionControls extends React.Component {
   }
 
   componentDidMount = () => {
+    this.loadUser();
+    userSession.subscribe(this.loadUser);
+  }
+
+  loadUser = () => {
     const user = userSession.get();
 
     this.setState({

@@ -11,6 +11,7 @@ import UserSessionControls from './UserSessionControls.jsx';
 jest.mock('./userSession.js', () => ({
   get: jest.fn(),
   logOut: jest.fn(),
+  subscribe: jest.fn(),
 }));
 
 describe('UserSessionControls', () => {
@@ -29,8 +30,24 @@ describe('UserSessionControls', () => {
   });
 
   describe('componentDidMount', () => {
-    it('calls userSession.get', () => {
+    beforeEach(() => {
+      jest.spyOn(subject.instance(), 'loadUser');
+
       subject.instance().componentDidMount();
+    });
+
+    it('calls loadUser', () => {
+      expect(subject.instance().loadUser).toHaveBeenCalledWith();
+    });
+
+    it('subscribes to user session updates', () => {
+      expect(userSession.subscribe).toHaveBeenCalledWith(subject.instance().loadUser);
+    });
+  });
+
+  describe('loadUser', () => {
+    it('calls userSession.get', () => {
+      subject.instance().loadUser();
 
       expect(userSession.get).toHaveBeenCalledWith();
     });
@@ -41,7 +58,7 @@ describe('UserSessionControls', () => {
           username: 'some.user',
         });
 
-       subject.instance().componentDidMount();
+       subject.instance().loadUser();
       })
 
       it('sets the state to that value', () => {
@@ -55,7 +72,7 @@ describe('UserSessionControls', () => {
       beforeEach(() => {
         userSession.get.mockReturnValue(null);
 
-       subject.instance().componentDidMount();
+       subject.instance().loadUser();
       })
 
       it('sets the state to that value', () => {
