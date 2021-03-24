@@ -9,6 +9,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import App from './App.jsx';
+import UserSessionControls from './UserSessionControls.jsx';
 import CreateView from './views/create/View.jsx';
 import ListView from './views/list/View.jsx';
 import LogInView from './views/logIn/View.jsx';
@@ -25,6 +26,12 @@ describe('App', () => {
 
   it('is a BrowserRouter', () => {
     expect(subject.type()).toBe(BrowserRouter);
+  });
+
+  it('contains UserSessionControls', () => {
+    const userSessionControls = subject.find(UserSessionControls);
+
+    expect(userSessionControls.length).toBe(1);
   });
 
   it('contains a Switch', () => {
@@ -75,8 +82,17 @@ describe('App', () => {
     });
 
     describe('/log-in', () => {
-      const content = () => renderContent(route());
+      const content = () => renderContent(route(), {
+        history,
+      });
+      let history;
       const route = () => findRoute('/log-in');
+
+      beforeEach(() => {
+        history = {
+          push: jest.fn(),
+        };
+      });
 
       it('exists', () => {
         expect(route().length).toBe(1);
@@ -84,6 +100,16 @@ describe('App', () => {
 
       it('renders the login view', () => {
         expect(content().type()).toBe(LogInView);
+      });
+
+      it('sets the onLoggedIn prop', () => {
+        let onLoggedIn = content().props().onLoggedIn;
+
+        expect(onLoggedIn).toEqual(expect.any(Function));
+
+        onLoggedIn();
+
+        expect(history.push).toHaveBeenCalledWith('/');
       });
     });
 
