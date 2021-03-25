@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import errorStream from './errorStream.js';
 import Debouncer from './Debouncer.js';
 
