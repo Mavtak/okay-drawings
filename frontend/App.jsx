@@ -27,8 +27,14 @@ class App extends React.Component {
           <Route
             exact
             path="/create"
-            render={() => (
-              <CreateView />
+            render={({
+              history,
+            }) => (
+              <CreateView
+                onSave={(id) => {
+                  history.push(`/view/${id}`);
+                }}
+              />
             )}
           />
           <Route

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import DrawingPad from './DrawingPad.jsx';
 import api from '../../api.js';
@@ -25,10 +26,15 @@ class View extends React.Component {
 
   handleSave = async () => {
     const {
+      onSave,
+    } = this.props;
+    const {
       drawing,
     } = this.state;
 
-    await api.createDrawing(drawing);
+    const id = await api.createDrawing(drawing);
+
+    onSave(id);
   }
 
   render = () => {
@@ -56,5 +62,9 @@ class View extends React.Component {
     );
   }
 }
+
+View.propTypes = {
+  onSave: PropTypes.func.isRequired,
+};
 
 export default View;

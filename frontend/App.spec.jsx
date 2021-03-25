@@ -16,9 +16,14 @@ import LogInView from './views/logIn/View.jsx';
 import ViewView from './views/view/View.jsx';
 
 describe('App', () => {
+  let history;
   let subject;
 
   beforeEach(() => {
+    history = {
+      push: jest.fn(),
+    };
+    
     subject = shallow(
       <App />
     );
@@ -69,7 +74,9 @@ describe('App', () => {
     });
 
     describe('/create', () => {
-      const content = () => renderContent(route());
+      const content = () => renderContent(route(), {
+        history,
+      });
       const route = () => findRoute('/create');
 
       it('exists', () => {
@@ -79,20 +86,23 @@ describe('App', () => {
       it('renders the create view', () => {
         expect(content().type()).toBe(CreateView);
       });
+
+      it('sets the onSave prop', () => {
+        let onSave = content().props().onSave;
+
+        expect(onSave).toEqual(expect.any(Function));
+
+        onSave('some-id');
+
+        expect(history.push).toHaveBeenCalledWith('/view/some-id');
+      });
     });
 
     describe('/log-in', () => {
       const content = () => renderContent(route(), {
         history,
       });
-      let history;
       const route = () => findRoute('/log-in');
-
-      beforeEach(() => {
-        history = {
-          push: jest.fn(),
-        };
-      });
 
       it('exists', () => {
         expect(route().length).toBe(1);
