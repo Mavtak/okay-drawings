@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  Link,
+} from 'react-router-dom';
 import DrawingPad from './DrawingPad.jsx';
 import api from '../../api.js';
 
@@ -39,11 +42,21 @@ class View extends React.Component {
 
   render = () => {
     let {
+      listPath,
+    } = this.props;
+    let {
       drawing,
     } = this.state;
 
     return (
       <div>
+        <div>
+          <Link
+            to={listPath}
+          >
+            back to listing
+          </Link>
+        </div>
         <div>
           <DrawingPad
             onChange={this.handleChangeDrawing}
@@ -64,6 +77,7 @@ class View extends React.Component {
 }
 
 View.propTypes = {
+  listPath: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 

@@ -91,6 +91,10 @@ describe('App', () => {
         expect(content().type()).toBe(CreateView);
       });
 
+      it('sets the listPath prop', () => {
+        expect(content().props().listPath).toBe('/');
+      })
+
       it('sets the onSave prop', () => {
         let onSave = content().props().onSave;
 

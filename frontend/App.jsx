@@ -33,6 +33,7 @@ class App extends React.Component {
               history,
             }) => (
               <CreateView
+                listPath="/"
                 onSave={(id) => {
                   history.push(`/view/${id}`);
                 }}
