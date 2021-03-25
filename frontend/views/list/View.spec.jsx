@@ -9,7 +9,9 @@ describe('View', () => {
 
   beforeEach(() => {
     subject = shallow(
-      <View />
+      <View
+        createPath="/some-create-path"
+      />
     );
   });
 

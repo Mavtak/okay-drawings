@@ -1,4 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  Link,
+} from 'react-router-dom';
 import api from '../../api.js';
 import DrawingDisplay from './DrawingDisplay.jsx';
 
@@ -25,11 +29,21 @@ class View extends React.Component {
 
   render = () => {
     const {
+      createPath,
+    } = this.props;
+    const {
       drawings,
     } = this.state;
 
     return (
       <div>
+        <div>
+          <Link
+            to={createPath}
+          >
+            draw something
+          </Link>
+        </div>
         {
           drawings.map((drawing, index) => (
             <DrawingDisplay
@@ -41,6 +55,10 @@ class View extends React.Component {
       </div>
     );
   }
-
 }
+
+View.propTypes = {
+  createPath: PropTypes.string.isRequired,
+};
+
 export default View;

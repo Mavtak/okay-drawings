@@ -21,7 +21,9 @@ class App extends React.Component {
             exact
             path="/"
             render={() => (
-              <ListView />
+              <ListView
+                createPath="/create"
+              />
             )}
           />
           <Route

@@ -71,6 +71,10 @@ describe('App', () => {
       it('renders the list view', () => {
         expect(content().type()).toBe(ListView);
       });
+
+      it('sets the createPath prop', () => {
+        expect(content().props().createPath).toBe('/create');
+      })
     });
 
     describe('/create', () => {
