@@ -5,8 +5,12 @@ export default async (id) => {
 
   try {
    const fileContents = await fs.readFile(storagePath);
-   
-   return JSON.parse(fileContents);
+   const drawing = {
+     ...JSON.parse(fileContents),
+     id: id,
+   };
+
+   return drawing;
   }
   catch {
     return null;
