@@ -8,6 +8,7 @@ import MetadataOverlay from './MetadataOverlay.jsx';
 
 const DrawingDisplay = ({
   drawing,
+  onDelete,
 }) => (
   <Link
     to={`/view/${encodeURIComponent(drawing.id)}`}
@@ -40,6 +41,7 @@ const DrawingDisplay = ({
         }}
       >
         <MetadataOverlay
+          onDelete={onDelete}
           drawing={drawing}
         />
       </div>
@@ -53,6 +55,7 @@ DrawingDisplay.propTypes = {
     id: PropTypes.string.isRequired,
     strokes: Canvas.propTypes.strokes,
   }).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default DrawingDisplay;

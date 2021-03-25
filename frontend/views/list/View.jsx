@@ -21,6 +21,18 @@ class View extends React.Component {
     userSession.subscribe(this.loadDrawings);
   }
 
+  handleDelete = async (drawing) => {
+    const {
+      drawings,
+    } = this.state;
+
+    this.setState({
+      drawings: drawings.filter(x => x !== drawing),
+    });
+
+    await api.deleteDrawing(drawing.id);
+  }
+
   loadDrawings = async () => {
     const drawings = await api.listDrawings();
 
@@ -50,6 +62,7 @@ class View extends React.Component {
           drawings.map((drawing, index) => (
             <DrawingDisplay
               drawing={drawing}
+              onDelete={() => this.handleDelete(drawing)}
               key={index}
             />
           ))
