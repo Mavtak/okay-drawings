@@ -18,4 +18,11 @@ export default {
 
     return id;
   },
+
+  readDrawing: async (id) => {
+    const response = await fetch(`/api/drawings/${encodeURIComponent(id)}`);
+    const responseBody = await response.json();
+
+    return responseBody;
+  }
 };
