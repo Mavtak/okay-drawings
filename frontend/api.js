@@ -19,6 +19,13 @@ export default {
     return id;
   },
 
+  listDrawings: async () => {
+    const response = await fetch(`/api/drawings`);
+    const responseBody = await response.json();
+
+    return responseBody;
+  },
+
   readDrawing: async (id) => {
     const response = await fetch(`/api/drawings/${encodeURIComponent(id)}`);
     const responseBody = await response.json();
