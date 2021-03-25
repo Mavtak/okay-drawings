@@ -39,6 +39,10 @@ class View extends React.Component {
       await api.deleteDrawing(drawing.id);
     }
     catch {
+      errorStream.publish({
+        message: 'hmm... looks like I ran into trouble deleting that, but it\'s so pretty anyway',
+      });
+
       this.setState({
         drawings: this.state.drawings
           .map(x => (
