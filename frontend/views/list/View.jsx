@@ -7,12 +7,14 @@ import api from '../../api.js';
 import errorStream from '../../errorStream.js';
 import DrawingDisplay from './DrawingDisplay.jsx';
 import userSession from '../../userSession.js';
+import LoadingView from '../Loading/View.jsx';
 
 class View extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: true,
       drawings: [],
     };
   }
@@ -65,15 +67,26 @@ class View extends React.Component {
   }
 
   loadDrawings = async () => {
+    this.setState({
+      loading: true,
+    });
+
     const drawings = await api.listDrawings();
 
     if (drawings === null) {
       errorStream.publish({
         message: '😭 I couldn\'t load all of these gorgeous creations',
       });
+
+      this.setState({
+        loading: false,
+      });
+
+      return;
     }
 
     this.setState({
+      loading: false,
       drawings: drawings.results,
     });
   }
@@ -83,8 +96,15 @@ class View extends React.Component {
       createPath,
     } = this.props;
     const {
+      loading,
       drawings,
     } = this.state;
+
+    if (loading) {
+      return (
+        <LoadingView />
+      );
+    }
 
     return (
       <div>

@@ -6,6 +6,7 @@ import {
 import api from '../../api.js';
 import errorStream from '../../errorStream.js';
 import userSession from '../../userSession.js';
+import LoadingView from '../Loading/View.jsx';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
 import WidthPicker from './WidthPicker.jsx';
@@ -25,6 +26,7 @@ class View extends React.Component {
         isPublic: true,
         strokes: [],
       },
+      submitting: false,
     };
   }
 
@@ -98,11 +100,19 @@ class View extends React.Component {
       durationMs,
     };
 
+    this.setState({
+      submitting: true,
+    });
+
     const id = await api.createDrawing(drawingToSave);
 
     if (!id) {
       errorStream.publish({
         message: 'oh no!  I couldn\'d save your masterpiece.',
+      });
+
+      this.setState({
+        submitting: false,
       });
 
       return;
@@ -119,7 +129,14 @@ class View extends React.Component {
       brushColor,
       brushWidthPx,
       drawing,
+      submitting,
     } = this.state;
+
+    if (submitting) {
+      return (
+        <LoadingView />
+      );
+    }
 
     return (
       <div>
