@@ -35,6 +35,10 @@ class View extends React.Component {
             <Canvas
               key={index}
               {...drawing}
+              resize={{
+                height: 200,
+                width: 200,
+              }}
             />
           ))
         }
