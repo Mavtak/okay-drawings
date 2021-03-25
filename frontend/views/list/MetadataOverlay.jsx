@@ -16,15 +16,15 @@ const MetadataOverlay = ({
     </div>
     {
       drawing.startTime &&
-    <div>
-      {moment(drawing.startTime).fromNow()}
-    </div>
+      <div>
+        {moment(drawing.startTime).fromNow()}
+      </div>
     }
     {
       (drawing.durationMs >= 0) &&
-    <div>
-      spending {Math.floor(drawing.durationMs/1000)} seconds
-    </div>
+      <div>
+        spending {Math.floor(drawing.durationMs/1000)} seconds
+      </div>
     }
   </div>
 );
