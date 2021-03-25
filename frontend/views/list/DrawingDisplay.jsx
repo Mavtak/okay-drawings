@@ -13,12 +13,11 @@ const DrawingDisplay = ({
     }}
   >
     <Canvas
-      dimensionsPx={drawing.dimensionsPx}
+      drawing={drawing}
       resize={{
         height: '200px',
         width: '200px',
       }}
-      strokes={drawing.strokes}
     />
     <hr />
     <div

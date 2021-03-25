@@ -62,18 +62,14 @@ class DrawingPad extends React.Component {
   }
 
   render = () => {
-    let {
-      value: {
-        dimensionsPx,
-        strokes,
-      },
+    const {
+      value,
     } = this.props;
 
     return (
       <Canvas
-        dimensionsPx={dimensionsPx}
+        drawing={value}
         onDraw={this.handleDraw}
-        strokes={strokes}
         style={{
           border: '1px solid black',
           boxSizing: 'border-box',

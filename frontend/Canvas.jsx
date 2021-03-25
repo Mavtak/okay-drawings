@@ -3,13 +3,12 @@ import React from 'react';
 
 const Canvas = ({
   onDraw,
-  dimensionsPx,
+  drawing,
   resize,
-  strokes,
   ...props
 }) => (
   <svg
-    height={resize?.height || dimensionsPx.height}
+    height={resize?.height || drawing.dimensionsPx.height}
     onMouseDown={onDraw && (() => {
       onDraw({
         penDown: true,
@@ -34,12 +33,12 @@ const Canvas = ({
         penDown: false,
       });
     })}
-    width={resize?.width || dimensionsPx.width}
-    viewBox={resize && `0 0 ${dimensionsPx.height} ${dimensionsPx.width}`}
+    width={resize?.width || drawing.dimensionsPx.width}
+    viewBox={resize && `0 0 ${drawing.dimensionsPx.height} ${drawing.dimensionsPx.width}`}
     {...props}
   >
     {
-      strokes.map(({
+      drawing.strokes.map(({
         start, end
       }, i) => (
         <line
@@ -64,9 +63,17 @@ const coordinatesPropType = PropTypes.shape({
 });
 
 Canvas.propTypes = {
-  dimensionsPx: PropTypes.shape({
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
+  drawing: PropTypes.shape({
+    dimensionsPx: PropTypes.shape({
+      height: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired,
+    }).isRequired,
+    strokes: PropTypes.arrayOf(
+      PropTypes.shape({
+        end: coordinatesPropType.isRequired,
+        start: coordinatesPropType.isRequired,
+      }),
+    ),
   }).isRequired,
   onDraw: PropTypes.func,
   resize: PropTypes.shape({
@@ -79,12 +86,6 @@ Canvas.propTypes = {
       PropTypes.string,
     ]),
   }),
-  strokes: PropTypes.arrayOf(
-    PropTypes.shape({
-      end: coordinatesPropType.isRequired,
-      start: coordinatesPropType.isRequired,
-    }),
-  ),
 };
 
 export default Canvas;
