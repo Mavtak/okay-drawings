@@ -1,14 +1,9 @@
 import send from './api.send.js';
-import userSession from './userSession.js';
 
 export default {
   createDrawing: async (drawing) => {
-    const user = userSession.get();
     const response = await send({
-      body: {
-        ...drawing,
-        user,
-      },
+      body: drawing,
       method: 'POST',
       path: [
         'drawings',
@@ -30,15 +25,11 @@ export default {
   },
 
   listDrawings: async () => {
-    const user = userSession.get();
     const response = await send({
       method: 'GET',
       path: [
         'drawings',
       ],
-      query: {
-        username: user?.username,
-      },
     });
 
     return response.body;
