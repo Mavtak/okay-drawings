@@ -79,6 +79,7 @@ class View extends React.Component {
             value={brushColor}
           />
           <DrawingPad
+            brushColor={brushColor}
             onChange={this.handleChangeDrawing}
             value={drawing}
           />
