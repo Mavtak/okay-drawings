@@ -1,5 +1,6 @@
 import express from 'express';
 import app from './app.js';
+import createDrawingHandler from './handlers/createDrawing.js';
 import rootRoute from './rootRoute.js';
 
 jest.mock('body-parser', () => ({
@@ -43,6 +44,12 @@ describe('app', () => {
     await app();
 
     expect(expressInstance.get).toHaveBeenCalledWith('/', rootRoute);
+  });
+  
+  it('registers POST /drawings', async () => {
+    await app();
+
+    expect(expressInstance.post).toHaveBeenCalledWith('/drawings', createDrawingHandler);
   })
 
   it('returns the app instance', async () => {
