@@ -152,6 +152,10 @@ describe('App', () => {
       it('passes through the id', () => {
         expect(content().props().id).toBe('some-id');
       });
+
+      it('sets the listPath prop', () => {
+        expect(content().props().listPath).toBe('/');
+      })
     });
   });
 

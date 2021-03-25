@@ -60,6 +60,7 @@ class App extends React.Component {
               match,
             }) => (
               <ViewView
+                listPath="/"
                 id={match.params.id}
               />
             )}
