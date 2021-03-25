@@ -1,3 +1,4 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Canvas from '../../Canvas.jsx';
@@ -10,6 +11,7 @@ const DrawingDisplay = ({
       display: 'inline-block',
       border: '1px solid black',
       margin: '10px',
+      width: '200px',
     }}
   >
     <Canvas
@@ -26,7 +28,15 @@ const DrawingDisplay = ({
         textAlign: 'center',
       }}
     >
-      imagined by {drawing.user.username}
+      <div>
+        imagined by {drawing.user.username}
+      </div>
+      {
+        drawing.startTime &&
+        <div>
+          {moment(drawing.startTime).fromNow()}
+        </div>
+      }
     </div>
   </div>
 );
