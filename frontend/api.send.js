@@ -1,3 +1,4 @@
+import errorStream from './errorStream.js';
 import userSession from './userSession.js';
 
 export default async ({
@@ -25,20 +26,38 @@ export default async ({
     headers['X-Username'] = user.username;
   }
 
-  const response = await fetch(`${formattedPath}${querystring}`, {
-    body: body && JSON.stringify(body),
-    headers,
-    method,
-  });
+  try {
+    const response = await fetch(`${formattedPath}${querystring}`, {
+      body: body && JSON.stringify(body),
+      headers,
+      method,
+    });
 
-  const responseBody = response.headers.get('Content-Type')?.startsWith('application/json')
-    ? await response.json()
-    : null;
+    const responseBody = response.headers.get('Content-Type')?.startsWith('application/json')
+      ? await response.json()
+      : null;
 
-  const result = {
-    status: response.status,
-    body: responseBody,
-  };
+    const result = {
+      status: response.status,
+      body: responseBody,
+    };
 
-  return result;
+    return result;
+  }
+  catch (exception) {
+    window.blep = exception;
+
+    if (exception.message === 'Failed to fetch') {
+      errorStream.publish({
+        message: 'oh hun ☺ it looks like your beautiful computer isn\'t online',
+      });
+    }
+    else {
+      errorStream.publish({
+        message: 'oh uh! I think I messed up. could you try refreshing me?',
+      });
+    }
+
+    throw exception;
+  }
 };
