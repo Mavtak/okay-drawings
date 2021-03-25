@@ -8,6 +8,7 @@ jest.mock('body-parser', () => ({
 
 jest.mock('express', () => jest.fn());
 
+jest.mock('./createStorageDirectories.js', () => jest.fn());
 
 describe('app', () => {
   let expressInstance;
@@ -21,6 +22,10 @@ describe('app', () => {
 
     express.mockReturnValue(expressInstance);
   });
+
+  it('calls createStorageDirectories', async () => {
+    await app();
+  })
 
   it('creates a new express app', async () => {
     await app();

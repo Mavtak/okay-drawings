@@ -4,6 +4,8 @@ import createStorageDirectories from './createStorageDirectories.js'
 import rootRoute from './rootRoute.js';
 
 export default async () => {
+  await createStorageDirectories();
+
   const app = express();
 
   app.use(bodyParser.json())
