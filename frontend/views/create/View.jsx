@@ -20,6 +20,7 @@ class View extends React.Component {
           height: 500,
           width: 800,
         },
+        isPublic: true,
         strokes: [],
       },
     };
@@ -38,8 +39,28 @@ class View extends React.Component {
   }
 
   handleChangeDrawing = (drawing) => {
+    if (!drawing.startTime) {
+      drawing = {
+        ...drawing,
+        startTime: new Date(),
+      };
+    }
+
     this.setState({
       drawing,
+    });
+  }
+
+  handleChangeIsPublic = (event) => {
+    const {
+      drawing,
+    } = this.state;
+
+    this.setState({
+      drawing: {
+        ...drawing,
+        isPublic: event.target.checked,
+      },
     });
   }
 
@@ -50,8 +71,15 @@ class View extends React.Component {
     const {
       drawing,
     } = this.state;
+    const durationMs = drawing.startTime
+      ? new Date() - drawing.startTime
+      : 0;
+    const drawingToSave = {
+      ...drawing,
+      durationMs,
+    };
 
-    const id = await api.createDrawing(drawing);
+    const id = await api.createDrawing(drawingToSave);
 
     onSave(id);
   }
@@ -106,13 +134,22 @@ class View extends React.Component {
           />
         </div>
         <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={drawing.isPublic}
+              onClick={this.handleChangeIsPublic}
+            />
+            share with the world
+          </label>
+        </div>
+        <div>
           <button
             onClick={this.handleSave}
           >
           save
           </button>
         </div>
-        
       </div>
     );
   }

@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import api from '../../api.js';
 import DrawingDisplay from './DrawingDisplay.jsx';
+import userSession from '../../userSession.js';
 
 class View extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class View extends React.Component {
 
   componentDidMount = async () => {
     await this.loadDrawings();
+    userSession.subscribe(this.loadDrawings);
   }
 
   loadDrawings = async () => {
