@@ -5,15 +5,19 @@ import React from 'react';
 import View from './View.jsx';
 
 describe('View', () => {
-  let subject;
+  let onLoggedOut;
   let onSave;
+  let subject;
 
   beforeEach(() => {
+    onLoggedOut = jest.fn();
+    
     onSave = jest.fn();
 
     subject = shallow(
       <View
         listPath="/some-list-path"
+        onLoggedOut={onLoggedOut}
         onSave={onSave}
       />
     );

@@ -3,10 +3,11 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import api from '../../api.js';
+import userSession from '../../userSession.js';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
 import WidthPicker from './WidthPicker.jsx';
-import api from '../../api.js';
 
 class View extends React.Component {
   constructor(props) {
@@ -24,6 +25,23 @@ class View extends React.Component {
         strokes: [],
       },
     };
+  }
+
+  checkLoggedIn = () => {
+    const {
+      onLoggedOut,
+    } = this.props;
+    const user = userSession.get();
+
+    if (!user) {
+      onLoggedOut();
+    }
+  }
+
+  componentDidMount = () => {
+    this.checkLoggedIn();
+
+    userSession.subscribe(this.checkLoggedIn);
   }
 
   handleChangeBrushColor = (color) => {
@@ -157,6 +175,7 @@ class View extends React.Component {
 
 View.propTypes = {
   listPath: PropTypes.string.isRequired,
+  onLoggedOut: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 

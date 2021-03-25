@@ -34,6 +34,9 @@ class App extends React.Component {
             }) => (
               <CreateView
                 listPath="/"
+                onLoggedOut={() => {
+                  history.push(`/log-in`);
+                }}
                 onSave={(id) => {
                   history.push(`/view/${id}`);
                 }}
