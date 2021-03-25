@@ -20,6 +20,7 @@ class View extends React.Component {
           height: 500,
           width: 800,
         },
+        isPublic: true,
         strokes: [],
       },
     };
@@ -47,6 +48,19 @@ class View extends React.Component {
 
     this.setState({
       drawing,
+    });
+  }
+
+  handleChangeIsPublic = (event) => {
+    const {
+      drawing,
+    } = this.state;
+
+    this.setState({
+      drawing: {
+        ...drawing,
+        isPublic: event.target.checked,
+      },
     });
   }
 
@@ -120,13 +134,22 @@ class View extends React.Component {
           />
         </div>
         <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={drawing.isPublic}
+              onClick={this.handleChangeIsPublic}
+            />
+            share with the world
+          </label>
+        </div>
+        <div>
           <button
             onClick={this.handleSave}
           >
           save
           </button>
         </div>
-        
       </div>
     );
   }
