@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
+import WidthPicker from './WidthPicker.jsx';
 import api from '../../api.js';
 
 class View extends React.Component {
@@ -13,6 +14,7 @@ class View extends React.Component {
 
     this.state = {
       brushColor: 'purple',
+      brushWidthPx: 1,
       drawing: {
         dimensionsPx: {
           height: 500,
@@ -26,6 +28,12 @@ class View extends React.Component {
   handleChangeBrushColor = (color) => {
     this.setState({
       brushColor: color,
+    });
+  }
+
+  handleChangeBrushWidth = (width) => {
+    this.setState({
+      brushWidthPx: width,
     });
   }
 
@@ -54,6 +62,7 @@ class View extends React.Component {
     } = this.props;
     let {
       brushColor,
+      brushWidthPx,
       drawing,
     } = this.state;
 
@@ -77,6 +86,17 @@ class View extends React.Component {
             ]}
             onChange={this.handleChangeBrushColor}
             value={brushColor}
+          />
+          <WidthPicker
+            choices={[
+              1,
+              3,
+              5,
+              10,
+              18,
+            ]}
+            onChange={this.handleChangeBrushWidth}
+            value={brushWidthPx}
           />
           <DrawingPad
             brushColor={brushColor}
