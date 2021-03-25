@@ -1,9 +1,9 @@
 class EventStream {
   #listeners = []
 
-  publish = () => {
+  publish = (...args) => {
     this.#listeners.forEach((callback) => {
-      callback();
+      callback(...args);
     });
   }
 
