@@ -9,10 +9,9 @@ const DrawingDisplay = ({
   <div
     style={{
       display: 'inline-block',
+      position: 'relative',
       border: '1px solid black',
       margin: '10px',
-      width: '200px',
-      height: '200px',
     }}
   >
     <Canvas
@@ -22,9 +21,19 @@ const DrawingDisplay = ({
         width: '200px',
       }}
     />
-    <MetadataOverlay
-      drawing={drawing}
-    />
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      }}
+    >
+      <MetadataOverlay
+        drawing={drawing}
+      />
+    </div>
   </div>
 );
 
