@@ -8,7 +8,14 @@ class EventStream {
   }
 
   subscribe = (callback) => {
-    this.#listeners.push(callback);
+    this.#listeners = [
+      ...this.#listeners,
+      callback,
+    ];
+
+    return () => {
+      this.#listeners = this.#listeners.filter(x => x !== callback);
+    };
   }
 }
 
