@@ -11,7 +11,7 @@ export default async () => {
 
   const app = express();
 
-  app.use(bodyParser.json())
+  app.use(bodyParser.json({ limit: '1mb' }))
   
   app.get('/', rootRoute);
 

@@ -51,7 +51,7 @@ class View extends React.Component {
         {
           drawing &&
           <Canvas
-            {...drawing}
+            drawing={drawing}
           />
         }
       </div>
