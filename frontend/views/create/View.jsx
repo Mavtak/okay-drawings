@@ -44,7 +44,13 @@ class View extends React.Component {
   componentDidMount = () => {
     this.checkLoggedIn();
 
-    userSession.subscribe(this.checkLoggedIn);
+    this.unsubscribeFromUserSession = userSession.subscribe(this.checkLoggedIn);
+  }
+
+  componentWillUnmount = () => {
+    if (this.unsubscribeFromUserSession) {
+      this.unsubscribeFromUserSession();
+    }
   }
 
   handleChangeBrushColor = (color) => {

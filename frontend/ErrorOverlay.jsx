@@ -16,7 +16,13 @@ class ErrorOverlay extends React.Component {
   }
 
   componentDidMount = () => {
-    errorStream.subscribe(this.handleError);
+    this.unsubscribeFromErrorStream = errorStream.subscribe(this.handleError);
+  }
+
+  componentWillUnmount = () => {
+    if (this.unsubscribeFromErrorStream) {
+      this.unsubscribeFromErrorStream();
+    }
   }
 
   handleError = async (error) => {

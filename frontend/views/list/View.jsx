@@ -21,7 +21,13 @@ class View extends React.Component {
 
   componentDidMount = async () => {
     await this.loadDrawings();
-    userSession.subscribe(this.loadDrawings);
+    this.unsubscribeFromUserSession = userSession.subscribe(this.loadDrawings);
+  }
+
+  componentWillUnmount = () => {
+    if (this.unsubscribeFromUserSession) {
+      this.unsubscribeFromUserSession();
+    }
   }
 
   handleDelete = async (drawing) => {
