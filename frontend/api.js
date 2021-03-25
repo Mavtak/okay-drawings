@@ -15,13 +15,18 @@ export default {
   },
 
   deleteDrawing: async (id) => {
-    await send({
+    const response = await send({
       method: 'DELETE',
       path: [
         'drawings',
         id
       ],
     });
+    const success = response.status === 204;
+
+    if (!success) {
+      throw new Error(`error while deleting drawing ${id}`);
+    }
   },
 
   listDrawings: async () => {
