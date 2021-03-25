@@ -15,6 +15,7 @@ class DrawingPad extends React.Component {
   handleDraw = (updates) => {
     const {
       brushColor,
+      brushWidthPx,
       onChange,
       value,
     } = this.props;
@@ -44,6 +45,7 @@ class DrawingPad extends React.Component {
         end: point,
         brush: {
           color: brushColor,
+          widthPx: brushWidthPx,
         },
         start: currentStrokeStart,
       };
@@ -85,6 +87,7 @@ class DrawingPad extends React.Component {
 
 DrawingPad.propTypes = {
   brushColor: PropTypes.string.isRequired,
+  brushWidthPx: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.shape({
     dimensionsPx: Canvas.propTypes.dimensionsPx,

@@ -100,6 +100,7 @@ class View extends React.Component {
           />
           <DrawingPad
             brushColor={brushColor}
+            brushWidthPx={brushWidthPx}
             onChange={this.handleChangeDrawing}
             value={drawing}
           />
