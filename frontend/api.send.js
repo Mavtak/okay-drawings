@@ -1,3 +1,5 @@
+import userSession from './userSession.js';
+
 export default async ({
   body,
   method,
@@ -14,12 +16,18 @@ export default async ({
         .join('&')
     )
     : '';
+  const user = userSession.get();
+  let headers = {
+    'Content-Type': 'application/json',
+  };
+  
+  if (user) {
+    headers['X-Username'] = user.username;
+  }
 
   const response = await fetch(`${formattedPath}${querystring}`, {
     body: body && JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     method,
   });
 
