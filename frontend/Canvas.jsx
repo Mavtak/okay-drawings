@@ -39,13 +39,15 @@ const Canvas = ({
   >
     {
       drawing.strokes.map(({
-        start, end
+        brush,
+        end,
+        start,
       }, i) => (
         <line
           key={i}
           style={{
-            stroke: 'purple',
-            strokeWidth: 1,
+            stroke: brush?.color || 'purple',
+            strokeWidth: brush?.widthPx || 1,
           }}
           x1={start.x}
           x2={end.x}
@@ -71,6 +73,10 @@ Canvas.propTypes = {
     strokes: PropTypes.arrayOf(
       PropTypes.shape({
         end: coordinatesPropType.isRequired,
+        brush: PropTypes.shape({
+          color: PropTypes.string,
+          widthPx: PropTypes.number,
+        }),
         start: coordinatesPropType.isRequired,
       }),
     ),
