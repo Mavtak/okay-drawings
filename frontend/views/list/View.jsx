@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../../api.js';
-import Canvas from '../../Canvas.jsx';
+import DrawingDisplay from './DrawingDisplay.jsx';
 
 class View extends React.Component {
   constructor(props) {
@@ -32,13 +32,9 @@ class View extends React.Component {
       <div>
         {
           drawings.map((drawing, index) => (
-            <Canvas
+            <DrawingDisplay
+              drawing={drawing}
               key={index}
-              {...drawing}
-              resize={{
-                height: 200,
-                width: 200,
-              }}
             />
           ))
         }
