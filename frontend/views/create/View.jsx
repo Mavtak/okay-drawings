@@ -38,6 +38,13 @@ class View extends React.Component {
   }
 
   handleChangeDrawing = (drawing) => {
+    if (!drawing.startTime) {
+      drawing = {
+        ...drawing,
+        startTime: new Date(),
+      };
+    }
+
     this.setState({
       drawing,
     });
@@ -50,8 +57,15 @@ class View extends React.Component {
     const {
       drawing,
     } = this.state;
+    const durationMs = drawing.startTime
+      ? new Date() - drawing.startTime
+      : 0;
+    const drawingToSave = {
+      ...drawing,
+      durationMs,
+    };
 
-    const id = await api.createDrawing(drawing);
+    const id = await api.createDrawing(drawingToSave);
 
     onSave(id);
   }
