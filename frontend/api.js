@@ -1,42 +1,58 @@
+import send from './api.send.js';
 import userSession from './userSession.js';
 
 export default {
   createDrawing: async (drawing) => {
     const user = userSession.get();
-    const response = await fetch('/api/drawings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const response = await send({
+      body: {
         ...drawing,
         user,
-      }),
+      },
+      method: 'POST',
+      path: [
+        'drawings',
+      ],
     });
-    const responseBody = await response.json();
-    const id = responseBody.id;
+    const id = response.body.id;
 
     return id;
   },
 
   deleteDrawing: async (id) => {
-    await fetch(`/api/drawings/${encodeURIComponent(id)}`, {
+    await send({
       method: 'DELETE',
+      path: [
+        'drawings',
+        id
+      ],
     });
   },
 
   listDrawings: async () => {
     const user = userSession.get();
-    const response = await fetch(`/api/drawings?username=${encodeURIComponent(user?.username)}`);
-    const responseBody = await response.json();
+    const response = await send({
+      method: 'GET',
+      path: [
+        'drawings',
+      ],
+      query: {
+        username: user?.username,
+      },
+    });
 
-    return responseBody;
+    return response.body;
   },
 
   readDrawing: async (id) => {
-    const response = await fetch(`/api/drawings/${encodeURIComponent(id)}`);
-    const responseBody = await response.json();
+    const response = await send({
+      method: 'GET',
+      path: [
+        'drawings',
+        id
+      ],
+    });
 
-    return responseBody;
+    return response.body;
   }
 };
