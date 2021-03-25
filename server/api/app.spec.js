@@ -1,6 +1,7 @@
 import express from 'express';
 import app from './app.js';
 import createDrawingHandler from './handlers/createDrawing.js';
+import deleteDrawingHandler from './handlers/deleteDrawing.js';
 import listDrawingsHandler from './handlers/listDrawings.js';
 import readDrawingHandler from './handlers/readDrawing.js';
 import rootRoute from './rootRoute.js';
@@ -18,6 +19,7 @@ describe('app', () => {
 
   beforeEach(() => {
     expressInstance = {
+      delete: jest.fn(),
       get: jest.fn(),
       post: jest.fn(),
       use: jest.fn(),
@@ -64,6 +66,12 @@ describe('app', () => {
     await app();
 
     expect(expressInstance.get).toHaveBeenCalledWith('/drawings/:id', readDrawingHandler);
+  });
+
+  it('registers DELETE /drawings/:id', async () => {
+    await app();
+
+    expect(expressInstance.delete).toHaveBeenCalledWith('/drawings/:id', deleteDrawingHandler);
   });
 
   it('returns the app instance', async () => {

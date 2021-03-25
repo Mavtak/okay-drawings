@@ -9,10 +9,16 @@ export default async ({
   const allDrawings = await Promise.all(
     ids.map(readDrawing)
   );
-  const drawings = allDrawings.filter((drawing) => (
-    drawing.isPublic ||
-    (drawing.user.username === username)
-  ));
+  const drawings = allDrawings
+    .filter((drawing) => (
+      drawing.isPublic ||
+      (drawing.user.username === username)
+    ))
+    .sort((a, b) => (
+      (a.startTime || '') < (b.startTime || '')
+        ? 1
+        : -1
+    ));
 
   return drawings;
 }
