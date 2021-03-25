@@ -4,6 +4,7 @@ import {
   Link,
 } from 'react-router-dom';
 import api from '../../api.js';
+import errorStream from '../../errorStream.js';
 import DrawingDisplay from './DrawingDisplay.jsx';
 import userSession from '../../userSession.js';
 
@@ -22,15 +23,41 @@ class View extends React.Component {
   }
 
   handleDelete = async (drawing) => {
-    const {
-      drawings,
-    } = this.state;
-
     this.setState({
-      drawings: drawings.filter(x => x !== drawing),
+      drawings: this.state.drawings
+        .map(x => (
+          x.id === drawing.id
+            ? {
+              ...drawing,
+              isDeleting: true,
+            }
+            : x
+        )),
     });
 
-    await api.deleteDrawing(drawing.id);
+    try {
+      await api.deleteDrawing(drawing.id);
+    }
+    catch {
+      this.setState({
+        drawings: this.state.drawings
+          .map(x => (
+            x.id === drawing.id
+              ? {
+                ...drawing,
+                isDeleting: false,
+              }
+              : x
+          )),
+      });
+
+      return;
+    }
+    
+    this.setState({
+      drawings: this.state.drawings
+        .filter(x => x.id !== drawing.id),
+    });
   }
 
   loadDrawings = async () => {
@@ -59,12 +86,13 @@ class View extends React.Component {
           </Link>
         </div>
         {
-          drawings.map((drawing, index) => (
-            <DrawingDisplay
-              drawing={drawing}
-              onDelete={() => this.handleDelete(drawing)}
-              key={drawing.id}
-            />
+          drawings.map((drawing) => (
+            !drawing.isDeleting &&
+              <DrawingDisplay
+                drawing={drawing}
+                onDelete={() => this.handleDelete(drawing)}
+                key={drawing.id}
+              />
           ))
         }
       </div>
