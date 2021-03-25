@@ -63,7 +63,7 @@ class View extends React.Component {
             <DrawingDisplay
               drawing={drawing}
               onDelete={() => this.handleDelete(drawing)}
-              key={index}
+              key={drawing.id}
             />
           ))
         }
