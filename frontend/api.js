@@ -9,7 +9,7 @@ export default {
         'drawings',
       ],
     });
-    const id = response.body.id;
+    const id = response?.body?.id;
 
     return id;
   },

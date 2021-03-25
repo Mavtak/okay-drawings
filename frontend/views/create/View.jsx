@@ -4,6 +4,7 @@ import {
   Link,
 } from 'react-router-dom';
 import api from '../../api.js';
+import errorStream from '../../errorStream.js';
 import userSession from '../../userSession.js';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
@@ -98,6 +99,14 @@ class View extends React.Component {
     };
 
     const id = await api.createDrawing(drawingToSave);
+
+    if (!id) {
+      errorStream.publish({
+        message: 'oh no!  I couldn\'d save your masterpiece.',
+      });
+
+      return;
+    }
 
     onSave(id);
   }
