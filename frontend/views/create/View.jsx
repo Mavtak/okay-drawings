@@ -156,7 +156,7 @@ class View extends React.Component {
             <input
               type="checkbox"
               checked={drawing.isPublic}
-              onClick={this.handleChangeIsPublic}
+              onChange={this.handleChangeIsPublic}
             />
             share with the world
           </label>
