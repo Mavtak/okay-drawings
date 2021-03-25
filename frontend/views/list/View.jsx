@@ -63,6 +63,12 @@ class View extends React.Component {
   loadDrawings = async () => {
     const drawings = await api.listDrawings();
 
+    if (drawings === null) {
+      errorStream.publish({
+        message: '😭 I couldn\'t load all of these gorgeous creations',
+      });
+    }
+
     this.setState({
       drawings: drawings.results,
     });
