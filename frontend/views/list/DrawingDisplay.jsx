@@ -12,6 +12,7 @@ const DrawingDisplay = ({
       border: '1px solid black',
       margin: '10px',
       width: '200px',
+      height: '200px',
     }}
   >
     <Canvas
@@ -37,6 +38,14 @@ const DrawingDisplay = ({
           {moment(drawing.startTime).fromNow()}
         </div>
       }
+      {
+        (drawing.durationMs >= 0) &&
+        <div>
+          spending {Math.floor(drawing.durationMs/1000)} seconds
+        </div>
+      }
+      
+
     </div>
   </div>
 );
