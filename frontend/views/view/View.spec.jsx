@@ -18,8 +18,4 @@ describe('View', () => {
   it('renders as a div', () => {
     expect(subject.type()).toBe('div');
   });
-
-  it('contains some filler text', () => {
-    expect(subject.text()).toBe('view view for some-id');
-  });
 });
