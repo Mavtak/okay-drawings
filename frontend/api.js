@@ -20,7 +20,8 @@ export default {
   },
 
   listDrawings: async () => {
-    const response = await fetch(`/api/drawings`);
+    const user = userSession.get();
+    const response = await fetch(`/api/drawings?username=${encodeURIComponent(user?.username)}`);
     const responseBody = await response.json();
 
     return responseBody;
