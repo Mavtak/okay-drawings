@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
 import api from '../../api.js';
 
@@ -11,6 +12,7 @@ class View extends React.Component {
     super(props);
 
     this.state = {
+      brushColor: 'purple',
       drawing: {
         dimensionsPx: {
           height: 500,
@@ -19,6 +21,12 @@ class View extends React.Component {
         strokes: [],
       },
     };
+  }
+
+  handleChangeBrushColor = (color) => {
+    this.setState({
+      brushColor: color,
+    });
   }
 
   handleChangeDrawing = (drawing) => {
@@ -45,6 +53,7 @@ class View extends React.Component {
       listPath,
     } = this.props;
     let {
+      brushColor,
       drawing,
     } = this.state;
 
@@ -58,6 +67,17 @@ class View extends React.Component {
           </Link>
         </div>
         <div>
+          <ColorPicker
+            choices={[
+              'purple',
+              'orangered',
+              'green',
+              'yellow',
+              'skyblue',
+            ]}
+            onChange={this.handleChangeBrushColor}
+            value={brushColor}
+          />
           <DrawingPad
             onChange={this.handleChangeDrawing}
             value={drawing}
