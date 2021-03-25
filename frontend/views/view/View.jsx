@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import api from '../../api.js';
 import Canvas from '../../Canvas.jsx';
+import LoadingView from '../Loading/View.jsx';
 
 class View extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class View extends React.Component {
 
     this.state = {
       drawing: null,
+      loading: true,
     };
   }
 
@@ -28,6 +30,7 @@ class View extends React.Component {
 
     this.setState({
       drawing,
+      loading: false,
     });
   }
 
@@ -37,7 +40,14 @@ class View extends React.Component {
     } = this.props;
     let {
       drawing,
+      loading,
     } = this.state;
+
+    if (loading) {
+      return (
+        <LoadingView />
+      );
+    }
 
     return (
       <div>

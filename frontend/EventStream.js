@@ -1,14 +1,21 @@
 class EventStream {
   #listeners = []
 
-  publish = () => {
+  publish = (...args) => {
     this.#listeners.forEach((callback) => {
-      callback();
+      callback(...args);
     });
   }
 
   subscribe = (callback) => {
-    this.#listeners.push(callback);
+    this.#listeners = [
+      ...this.#listeners,
+      callback,
+    ];
+
+    return () => {
+      this.#listeners = this.#listeners.filter(x => x !== callback);
+    };
   }
 }
 

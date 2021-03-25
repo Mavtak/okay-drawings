@@ -95,6 +95,16 @@ describe('App', () => {
         expect(content().props().listPath).toBe('/');
       })
 
+      it('sets the onLoggedOut prop', () => {
+        let onLoggedOut = content().props().onLoggedOut;
+
+        expect(onLoggedOut).toEqual(expect.any(Function));
+
+        onLoggedOut('some-id');
+
+        expect(history.push).toHaveBeenCalledWith('/log-in');
+      });
+
       it('sets the onSave prop', () => {
         let onSave = content().props().onSave;
 

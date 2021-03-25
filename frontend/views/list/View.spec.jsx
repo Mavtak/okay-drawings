@@ -15,7 +15,15 @@ describe('View', () => {
     );
   });
 
-  it('renders as a div', () => {
-    expect(subject.type()).toBe('div');
+  describe('when not loading', () => {
+    beforeEach(() => {
+      subject.setState({
+        loading: false,
+      });
+    });
+
+    it('renders as a div', () => {
+      expect(subject.type()).toBe('div');
+    });
   });
 });

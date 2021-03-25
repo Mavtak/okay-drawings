@@ -4,39 +4,95 @@ import {
   Link,
 } from 'react-router-dom';
 import api from '../../api.js';
+import errorStream from '../../errorStream.js';
 import DrawingDisplay from './DrawingDisplay.jsx';
 import userSession from '../../userSession.js';
+import LoadingView from '../Loading/View.jsx';
 
 class View extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: true,
       drawings: [],
     };
   }
 
   componentDidMount = async () => {
     await this.loadDrawings();
-    userSession.subscribe(this.loadDrawings);
+    this.unsubscribeFromUserSession = userSession.subscribe(this.loadDrawings);
+  }
+
+  componentWillUnmount = () => {
+    if (this.unsubscribeFromUserSession) {
+      this.unsubscribeFromUserSession();
+    }
   }
 
   handleDelete = async (drawing) => {
-    const {
-      drawings,
-    } = this.state;
-
     this.setState({
-      drawings: drawings.filter(x => x !== drawing),
+      drawings: this.state.drawings
+        .map(x => (
+          x.id === drawing.id
+            ? {
+              ...drawing,
+              isDeleting: true,
+            }
+            : x
+        )),
     });
 
-    await api.deleteDrawing(drawing.id);
+    try {
+      await api.deleteDrawing(drawing.id);
+    }
+    catch {
+      errorStream.publish({
+        message: 'hmm... looks like I ran into trouble deleting that, but it\'s so pretty anyway',
+      });
+
+      this.setState({
+        drawings: this.state.drawings
+          .map(x => (
+            x.id === drawing.id
+              ? {
+                ...drawing,
+                isDeleting: false,
+              }
+              : x
+          )),
+      });
+
+      return;
+    }
+    
+    this.setState({
+      drawings: this.state.drawings
+        .filter(x => x.id !== drawing.id),
+    });
   }
 
   loadDrawings = async () => {
+    this.setState({
+      loading: true,
+    });
+
     const drawings = await api.listDrawings();
 
+    if (drawings === null) {
+      errorStream.publish({
+        message: '😭 I couldn\'t load all of these gorgeous creations',
+      });
+
+      this.setState({
+        loading: false,
+      });
+
+      return;
+    }
+
     this.setState({
+      loading: false,
       drawings: drawings.results,
     });
   }
@@ -46,8 +102,15 @@ class View extends React.Component {
       createPath,
     } = this.props;
     const {
+      loading,
       drawings,
     } = this.state;
+
+    if (loading) {
+      return (
+        <LoadingView />
+      );
+    }
 
     return (
       <div>
@@ -59,12 +122,13 @@ class View extends React.Component {
           </Link>
         </div>
         {
-          drawings.map((drawing, index) => (
-            <DrawingDisplay
-              drawing={drawing}
-              onDelete={() => this.handleDelete(drawing)}
-              key={drawing.id}
-            />
+          drawings.map((drawing) => (
+            !drawing.isDeleting &&
+              <DrawingDisplay
+                drawing={drawing}
+                onDelete={() => this.handleDelete(drawing)}
+                key={drawing.id}
+              />
           ))
         }
       </div>

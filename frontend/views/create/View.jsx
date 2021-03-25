@@ -3,10 +3,13 @@ import React from 'react';
 import {
   Link,
 } from 'react-router-dom';
+import api from '../../api.js';
+import errorStream from '../../errorStream.js';
+import userSession from '../../userSession.js';
+import LoadingView from '../Loading/View.jsx';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
 import WidthPicker from './WidthPicker.jsx';
-import api from '../../api.js';
 
 class View extends React.Component {
   constructor(props) {
@@ -23,7 +26,31 @@ class View extends React.Component {
         isPublic: true,
         strokes: [],
       },
+      submitting: false,
     };
+  }
+
+  checkLoggedIn = () => {
+    const {
+      onLoggedOut,
+    } = this.props;
+    const user = userSession.get();
+
+    if (!user) {
+      onLoggedOut();
+    }
+  }
+
+  componentDidMount = () => {
+    this.checkLoggedIn();
+
+    this.unsubscribeFromUserSession = userSession.subscribe(this.checkLoggedIn);
+  }
+
+  componentWillUnmount = () => {
+    if (this.unsubscribeFromUserSession) {
+      this.unsubscribeFromUserSession();
+    }
   }
 
   handleChangeBrushColor = (color) => {
@@ -79,7 +106,23 @@ class View extends React.Component {
       durationMs,
     };
 
+    this.setState({
+      submitting: true,
+    });
+
     const id = await api.createDrawing(drawingToSave);
+
+    if (!id) {
+      errorStream.publish({
+        message: 'oh no!  I couldn\'d save your masterpiece.',
+      });
+
+      this.setState({
+        submitting: false,
+      });
+
+      return;
+    }
 
     onSave(id);
   }
@@ -92,7 +135,14 @@ class View extends React.Component {
       brushColor,
       brushWidthPx,
       drawing,
+      submitting,
     } = this.state;
+
+    if (submitting) {
+      return (
+        <LoadingView />
+      );
+    }
 
     return (
       <div>
@@ -138,7 +188,7 @@ class View extends React.Component {
             <input
               type="checkbox"
               checked={drawing.isPublic}
-              onClick={this.handleChangeIsPublic}
+              onChange={this.handleChangeIsPublic}
             />
             share with the world
           </label>
@@ -157,6 +207,7 @@ class View extends React.Component {
 
 View.propTypes = {
   listPath: PropTypes.string.isRequired,
+  onLoggedOut: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 

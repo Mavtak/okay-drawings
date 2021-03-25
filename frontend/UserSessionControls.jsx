@@ -15,7 +15,13 @@ class UserSessionControls extends React.Component {
 
   componentDidMount = () => {
     this.loadUser();
-    userSession.subscribe(this.loadUser);
+    this.unsubscribeFromUserSession = userSession.subscribe(this.loadUser);
+  }
+
+  componentWillUnmount = () => {
+    if (this.unsubscribeFromUserSession) {
+      this.unsubscribeFromUserSession();  
+    }
   }
 
   loadUser = () => {

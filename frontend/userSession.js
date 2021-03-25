@@ -1,5 +1,5 @@
 import localStorage from './localStorage.js';
-import EventStream from './eventStream.js';
+import EventStream from './EventStream.js';
 
 const eventStream = new EventStream();
 

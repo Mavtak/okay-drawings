@@ -1,8 +1,9 @@
 import listDrawings from '../data/listDrawings.js';
 
 export default async (req, res) => {
+  const username = req.headers['x-username'];
   const drawings = await listDrawings({
-    username: req.query.username,
+    username
   });
   const result = {
     results: drawings,

@@ -1,42 +1,54 @@
-import userSession from './userSession.js';
+import send from './api.send.js';
 
 export default {
   createDrawing: async (drawing) => {
-    const user = userSession.get();
-    const response = await fetch('/api/drawings', {
+    const response = await send({
+      body: drawing,
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...drawing,
-        user,
-      }),
+      path: [
+        'drawings',
+      ],
     });
-    const responseBody = await response.json();
-    const id = responseBody.id;
+    const id = response?.body?.id;
 
     return id;
   },
 
   deleteDrawing: async (id) => {
-    await fetch(`/api/drawings/${encodeURIComponent(id)}`, {
+    const response = await send({
       method: 'DELETE',
+      path: [
+        'drawings',
+        id
+      ],
     });
+    const success = response.status === 204;
+
+    if (!success) {
+      throw new Error(`error while deleting drawing ${id}`);
+    }
   },
 
   listDrawings: async () => {
-    const user = userSession.get();
-    const response = await fetch(`/api/drawings?username=${encodeURIComponent(user?.username)}`);
-    const responseBody = await response.json();
+    const response = await send({
+      method: 'GET',
+      path: [
+        'drawings',
+      ],
+    });
 
-    return responseBody;
+    return response.body;
   },
 
   readDrawing: async (id) => {
-    const response = await fetch(`/api/drawings/${encodeURIComponent(id)}`);
-    const responseBody = await response.json();
+    const response = await send({
+      method: 'GET',
+      path: [
+        'drawings',
+        id
+      ],
+    });
 
-    return responseBody;
+    return response.body;
   }
 };
