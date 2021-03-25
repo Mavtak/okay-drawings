@@ -29,26 +29,26 @@ describe('app', () => {
     express.mockReturnValue(expressInstance);
   });
 
-  it('creates a new express app', () => {
-    app(123);
+  it('creates a new express app', async () => {
+    await app(123);
 
     expect(express).toHaveBeenCalledWith();
   });
 
-  it('registers the api app', () => {
-    app(123);
+  it('registers the api app', async () => {
+    await app(123);
 
     expect(expressInstance.use).toHaveBeenCalledWith('/api', 'mocked api app');
   });
 
-  it('registers the dist files', () => {
-    app(123);
+  it('registers the dist files', async () => {
+    await app(123);
 
     expect(expressInstance.use('/dist', 'mocked express static "dist"'));
   });
 
-  it('registers the catch-all route to serve the frontend app', () => {
-    app(123);
+  it('registers the catch-all route to serve the frontend app', async () => {
+    await app(123);
 
     expect(expressInstance.get).toHaveBeenCalledWith('*', expect.any(Function));
 
@@ -64,8 +64,8 @@ describe('app', () => {
     });
   });
 
-  it('starts listening on the provided port', () => {
-    app(123);
+  it('starts listening on the provided port', async () => {
+    await app(123);
 
     expect(expressInstance.listen).toHaveBeenCalledWith(123, expect.any(Function));
     expect(expressInstance.listen).toHaveBeenCalledTimes(1);
@@ -77,8 +77,8 @@ describe('app', () => {
     expect(console.log).toHaveBeenCalledWith("okay-drawings listening on http://localhost:123")
   });
 
-  it('returns the app instance', () => {
-    const actual = app(123);
+  it('returns the app instance', async () => {
+    const actual = await app(123);
 
     expect(actual).toBe(expressInstance);
   });
