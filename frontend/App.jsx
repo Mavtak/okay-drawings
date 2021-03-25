@@ -21,7 +21,9 @@ class App extends React.Component {
             exact
             path="/"
             render={() => (
-              <ListView />
+              <ListView
+                createPath="/create"
+              />
             )}
           />
           <Route
@@ -31,6 +33,7 @@ class App extends React.Component {
               history,
             }) => (
               <CreateView
+                listPath="/"
                 onSave={(id) => {
                   history.push(`/view/${id}`);
                 }}
@@ -57,6 +60,7 @@ class App extends React.Component {
               match,
             }) => (
               <ViewView
+                listPath="/"
                 id={match.params.id}
               />
             )}

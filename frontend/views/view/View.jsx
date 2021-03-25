@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  Link,
+} from 'react-router-dom';
 import api from '../../api.js';
 import Canvas from '../../Canvas.jsx';
 
@@ -29,12 +32,22 @@ class View extends React.Component {
   }
 
   render = () => {
+    const {
+      listPath,
+    } = this.props;
     let {
       drawing,
     } = this.state;
 
     return (
       <div>
+        <div>
+          <Link
+            to={listPath}
+          >
+          back to listing
+          </Link>
+        </div>
         {
           drawing &&
           <Canvas
@@ -47,6 +60,7 @@ class View extends React.Component {
 }
 
 View.propTypes = {
+  listPath: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
 

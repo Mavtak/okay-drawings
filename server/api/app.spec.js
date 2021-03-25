@@ -1,6 +1,7 @@
 import express from 'express';
 import app from './app.js';
 import createDrawingHandler from './handlers/createDrawing.js';
+import listDrawingsHandler from './handlers/listDrawings.js';
 import readDrawingHandler from './handlers/readDrawing.js';
 import rootRoute from './rootRoute.js';
 
@@ -51,6 +52,12 @@ describe('app', () => {
     await app();
 
     expect(expressInstance.post).toHaveBeenCalledWith('/drawings', createDrawingHandler);
+  });
+
+  it('registers GET /drawings', async () => {
+    await app();
+
+    expect(expressInstance.get).toHaveBeenCalledWith('/drawings', listDrawingsHandler);
   });
 
   it('registers GET /drawings/:id', async () => {

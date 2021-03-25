@@ -9,15 +9,13 @@ describe('View', () => {
 
   beforeEach(() => {
     subject = shallow(
-      <View />
+      <View
+        createPath="/some-create-path"
+      />
     );
   });
 
   it('renders as a div', () => {
     expect(subject.type()).toBe('div');
-  });
-
-  it('contains some filler text', () => {
-    expect(subject.text()).toBe('list view');
   });
 });

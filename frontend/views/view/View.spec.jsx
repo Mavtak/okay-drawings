@@ -10,6 +10,7 @@ describe('View', () => {
   beforeEach(() => {
     subject = shallow(
       <View 
+        listPath="/some-list-path"
         id="some-id"
       />
     );

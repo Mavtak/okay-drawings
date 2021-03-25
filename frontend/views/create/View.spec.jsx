@@ -13,6 +13,7 @@ describe('View', () => {
 
     subject = shallow(
       <View
+        listPath="/some-list-path"
         onSave={onSave}
       />
     );

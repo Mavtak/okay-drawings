@@ -71,6 +71,10 @@ describe('App', () => {
       it('renders the list view', () => {
         expect(content().type()).toBe(ListView);
       });
+
+      it('sets the createPath prop', () => {
+        expect(content().props().createPath).toBe('/create');
+      })
     });
 
     describe('/create', () => {
@@ -86,6 +90,10 @@ describe('App', () => {
       it('renders the create view', () => {
         expect(content().type()).toBe(CreateView);
       });
+
+      it('sets the listPath prop', () => {
+        expect(content().props().listPath).toBe('/');
+      })
 
       it('sets the onSave prop', () => {
         let onSave = content().props().onSave;
@@ -144,6 +152,10 @@ describe('App', () => {
       it('passes through the id', () => {
         expect(content().props().id).toBe('some-id');
       });
+
+      it('sets the listPath prop', () => {
+        expect(content().props().listPath).toBe('/');
+      })
     });
   });
 

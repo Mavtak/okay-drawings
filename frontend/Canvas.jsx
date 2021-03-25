@@ -4,11 +4,12 @@ import React from 'react';
 const Canvas = ({
   onDraw,
   dimensionsPx,
+  resize,
   strokes,
   ...props
 }) => (
   <svg
-    height={dimensionsPx.height}
+    height={resize?.height || dimensionsPx.height}
     onMouseDown={onDraw && (() => {
       onDraw({
         penDown: true,
@@ -33,7 +34,8 @@ const Canvas = ({
         penDown: false,
       });
     })}
-    width={dimensionsPx.width}
+    width={resize?.width || dimensionsPx.width}
+    viewBox={resize && `0 0 ${dimensionsPx.height} ${dimensionsPx.width}`}
     {...props}
   >
     {
@@ -67,6 +69,16 @@ Canvas.propTypes = {
     width: PropTypes.number.isRequired,
   }).isRequired,
   onDraw: PropTypes.func,
+  resize: PropTypes.shape({
+    height: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+    width: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+  }),
   strokes: PropTypes.arrayOf(
     PropTypes.shape({
       end: coordinatesPropType.isRequired,
