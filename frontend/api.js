@@ -19,6 +19,12 @@ export default {
     return id;
   },
 
+  deleteDrawing: async (id) => {
+    await fetch(`/api/drawings/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+    });
+  },
+
   listDrawings: async () => {
     const user = userSession.get();
     const response = await fetch(`/api/drawings?username=${encodeURIComponent(user?.username)}`);
