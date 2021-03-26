@@ -14,6 +14,11 @@ const Canvas = ({
         penDown: true,
       });
     })}
+    onMouseLeave={onDraw && (() => {
+      onDraw({
+        penDown: false,
+      });
+    })}
     onMouseMove={onDraw && ((event) => {
       const svg = event.target.tagName !==  'svg'
         ? event.target.parentElement
