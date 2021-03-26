@@ -4,7 +4,6 @@ import createDrawingHandler from './handlers/createDrawing.js';
 import deleteDrawingHandler from './handlers/deleteDrawing.js';
 import listDrawingsHandler from './handlers/listDrawings.js';
 import readDrawingHandler from './handlers/readDrawing.js';
-import rootRoute from './rootRoute.js';
 
 jest.mock('body-parser', () => ({
   json: () => 'mocked json body parser',
@@ -44,12 +43,6 @@ describe('app', () => {
     expect(expressInstance.use).toHaveBeenCalledWith('mocked json body parser');
   });
 
-  it('registers the root route', async () => {
-    await app();
-
-    expect(expressInstance.get).toHaveBeenCalledWith('/', rootRoute);
-  });
-  
   it('registers POST /drawings', async () => {
     await app();
 
