@@ -7,7 +7,7 @@ import api from '../../api.js';
 import errorStream from '../../errorStream.js';
 import getNow from '../../getNow.js';
 import userSession from '../../userSession.js';
-import LoadingView from '../Loading/View.jsx';
+import LoadingView from '../loading/View.jsx';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
 import WidthPicker from './WidthPicker.jsx';

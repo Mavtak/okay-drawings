@@ -6,7 +6,7 @@ import {
   Link,
 } from 'react-router-dom';
 import userSession from '../../userSession.js';
-import LoadingView from '../Loading/View.jsx';
+import LoadingView from '../loading/View.jsx';
 import ColorPicker from './ColorPicker.jsx';
 import DrawingPad from './DrawingPad.jsx';
 import View from './View.jsx';
