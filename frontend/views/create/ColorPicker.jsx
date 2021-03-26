@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Choice from './ColorPicker.Choice.jsx';
 
 const ColorPicker = ({
   choices,
@@ -9,24 +10,11 @@ const ColorPicker = ({
   <div>
     {
       choices.map((color) => (
-        <div
+        <Choice 
           key={color}
-          onClick={() => onChange(color)}
-          style={{
-            display: 'inline-block',
-            margin: '5px',
-            backgroundColor: color,
-            cursor: 'pointer',
-            width: '50px',
-            height: '50px',
-            boxSizing: 'border-box',
-            borderRadius: '100%',
-            borderColor: 'black',
-            borderStyle: 'solid',
-            borderWidth: (color === value)
-              ? '3px'
-              : '1px',
-          }}
+          isSelected={color === value}
+          onChange={onChange}
+          value={color}
         />
       ))
     }
