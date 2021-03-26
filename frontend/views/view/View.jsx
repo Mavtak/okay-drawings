@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import api from '../../api.js';
 import Canvas from '../../Canvas.jsx';
-import LoadingView from '../Loading/View.jsx';
+import LoadingView from '../loading/View.jsx';
 
 class View extends React.Component {
   constructor(props) {

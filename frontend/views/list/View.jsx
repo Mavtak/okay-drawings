@@ -7,7 +7,7 @@ import api from '../../api.js';
 import errorStream from '../../errorStream.js';
 import DrawingDisplay from './DrawingDisplay.jsx';
 import userSession from '../../userSession.js';
-import LoadingView from '../Loading/View.jsx';
+import LoadingView from '../loading/View.jsx';
 
 class View extends React.Component {
   constructor(props) {
