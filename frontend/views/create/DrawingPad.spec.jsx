@@ -4,13 +4,17 @@ import {
 import React from 'react';
 import Canvas from '../../Canvas.jsx';
 import DrawingPad from './DrawingPad.jsx';
+import useOnDraw from './useOnDraw.js';
+
+jest.mock('./useOnDraw.js', () => jest.fn());
 
 describe('DrawingPad', () => {
-  let onChange;
+  const onDraw = () => {};
+  const onChange = () => {};
   let subject;
 
   beforeEach(() => {
-    onChange = jest.fn();
+    useOnDraw.mockReturnValue(onDraw);
 
     subject = shallow(
       <DrawingPad
@@ -39,6 +43,32 @@ describe('DrawingPad', () => {
     );
   });
 
+  it('calls useOnDraw', () => {
+    expect(useOnDraw).toHaveBeenCalledWith({
+      brushColor: 'somecolor',
+      brushWidthPx: 123,
+      onChange: onChange,
+      value: {
+        dimensionsPx: {
+          height: 222,
+          width: 333,
+        },
+        strokes: [
+          {
+            end: {
+              x: 1,
+              y: 2,
+            },
+            start: {
+              x: 9,
+              y: 8,
+            },
+          },
+        ],
+      },
+    });
+  });
+
   it('renders as a Canvas', () => {
     expect(subject.type()).toBe(Canvas);
   });
@@ -62,6 +92,10 @@ describe('DrawingPad', () => {
         },
       ],
     });
+  });
+
+  it('sets the onDraw prop to the result of useOnDraw', () => {
+    expect(subject.props().onDraw).toBe(onDraw);
   });
 
   it('sets a border on the Canvas', () => {
