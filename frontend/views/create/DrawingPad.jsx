@@ -1,60 +1,51 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
 import Canvas from '../../Canvas.jsx';
 
-class DrawingPad extends React.Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      penDown: false,
-      currentStrokeStart: null,
-    };
-  }
-
-  handleDraw = (updates) => {
+const DrawingPad = ({
+  brushColor,
+  brushWidthPx,
+  onChange,
+  value,
+}) => {
+  const [currentStrokeStart, setCurrentStrokeStart] = useState(null);
+  const [penDown, setPenDown] = useState(false);
+  const handleDraw = (updates) => {
     const {
-      brushColor,
-      brushWidthPx,
-      onChange,
-      value,
-    } = this.props;
-    const {
-      currentStrokeStart,
-      penDown,
+      currentStrokeStart: newCurrentStrokeStart,
+      penDown: newPenDown,
       point,
     } = {
-      ...this.state,
+      currentStrokeStart,
+      penDown,
       ...updates,
     };
     let strokes = value.strokes;
 
-    if (!penDown) {
-      this.setState({
-        currentStrokeStart: null,
-        penDown: false,
-      });
+    if (!newPenDown) {
+      setCurrentStrokeStart(null);
+      setPenDown(false);
 
       return;
     }
 
     let stroke;
 
-    if (currentStrokeStart != null) {
+    if (newCurrentStrokeStart != null) {
       stroke = {
         end: point,
         brush: {
           color: brushColor,
           widthPx: brushWidthPx,
         },
-        start: currentStrokeStart,
+        start: newCurrentStrokeStart,
       };
     }
 
-    this.setState({
-      currentStrokeStart: point,
-      penDown,
-    });
+    setCurrentStrokeStart(point);
+    setPenDown(newPenDown);
 
     if (stroke) {
       onChange({
@@ -65,25 +56,19 @@ class DrawingPad extends React.Component {
         ],
       });
     }
-  }
+  };
 
-  render = () => {
-    const {
-      value,
-    } = this.props;
-
-    return (
-      <Canvas
-        drawing={value}
-        onDraw={this.handleDraw}
-        style={{
-          border: '1px solid black',
-          boxSizing: 'border-box',
-        }}
-      />
-    );
-  }
-}
+  return (
+    <Canvas
+      drawing={value}
+      onDraw={handleDraw}
+      style={{
+        border: '1px solid black',
+        boxSizing: 'border-box',
+      }}
+    />
+  );
+};
 
 DrawingPad.propTypes = {
   brushColor: PropTypes.string.isRequired,
