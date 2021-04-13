@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import React, {
-  useState,
-} from 'react';
+import React from 'react';
 import Canvas from '../../Canvas.jsx';
+import useOnDraw from './useOnDraw.js';
 
 const DrawingPad = ({
   brushColor,
@@ -10,58 +9,17 @@ const DrawingPad = ({
   onChange,
   value,
 }) => {
-  const [currentStrokeStart, setCurrentStrokeStart] = useState(null);
-  const [penDown, setPenDown] = useState(false);
-  const handleDraw = (updates) => {
-    const {
-      currentStrokeStart: newCurrentStrokeStart,
-      penDown: newPenDown,
-      point,
-    } = {
-      currentStrokeStart,
-      penDown,
-      ...updates,
-    };
-    let strokes = value.strokes;
-
-    if (!newPenDown) {
-      setCurrentStrokeStart(null);
-      setPenDown(false);
-
-      return;
-    }
-
-    let stroke;
-
-    if (newCurrentStrokeStart != null) {
-      stroke = {
-        end: point,
-        brush: {
-          color: brushColor,
-          widthPx: brushWidthPx,
-        },
-        start: newCurrentStrokeStart,
-      };
-    }
-
-    setCurrentStrokeStart(point);
-    setPenDown(newPenDown);
-
-    if (stroke) {
-      onChange({
-        ...value,
-        strokes: [
-          ...strokes,
-          stroke
-        ],
-      });
-    }
-  };
+  const onDraw = useOnDraw({
+    brushColor,
+    brushWidthPx,
+    onChange,
+    value,
+  });
 
   return (
     <Canvas
       drawing={value}
-      onDraw={handleDraw}
+      onDraw={onDraw}
       style={{
         border: '1px solid black',
         boxSizing: 'border-box',
